@@ -1,0 +1,48 @@
+# Kakeibo をローカルで起動するための Docker Compose
+# イメージは GitHub Container Registry の発行済みイメージを使う（ソースのビルドは不要）。
+# 事前に GHCR へのログインが必要（イメージが Private のため）。手順は README を参照。
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD を .env に設定してください}
+      MYSQL_DATABASE: ${DB_NAME:-kakeibo}
+      MYSQL_USER: ${DB_USER:-kakeibo}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD を .env に設定してください}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    image: ghcr.io/root-admin-jp/kakeibo-api:${KAKEIBO_VERSION:-latest}
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME:-kakeibo}
+      DB_USER: ${DB_USER:-kakeibo}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD を .env に設定してください}
+      # JWT の署名キー。空だと起動のたびに変わりログインが切れるので、.env に固定値を入れる
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET を .env に設定してください}
+    ports:
+      - "${API_PORT:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    # テーブルの作成・更新は API 起動時に Flyway が行う（イメージに DDL 同梱）
+
+  web:
+    image: ghcr.io/root-admin-jp/kakeibo-web:${KAKEIBO_VERSION:-latest}
+    environment:
+      # ブラウザから見た API の URL。API_PORT を 8080 から変えたら、こちらも合わせて変える
+      NUXT_PUBLIC_API_BASE: ${NUXT_PUBLIC_API_BASE:-http://localhost:8080}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      - api
+
+volumes:
+  db-data:
