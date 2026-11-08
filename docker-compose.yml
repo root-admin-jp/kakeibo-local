@@ -18,7 +18,7 @@ services:
       retries: 10
 
   api:
-    image: ghcr.io/t-nozue-v2/kakeibo-api:${KAKEIBO_VERSION:-latest}
+    image: ghcr.io/root-admin-jp/kakeibo-api:${KAKEIBO_VERSION:-latest}
     environment:
       DB_HOST: db
       DB_PORT: 3306
@@ -35,7 +35,7 @@ services:
     # テーブルの作成・更新は API 起動時に Flyway が行う（イメージに DDL 同梱）
 
   web:
-    image: ghcr.io/t-nozue-v2/kakeibo-web:${KAKEIBO_VERSION:-latest}
+    image: ghcr.io/root-admin-jp/kakeibo-web:${KAKEIBO_VERSION:-latest}
     environment:
       # ブラウザから見た API の URL。API_PORT を 8080 から変えたら、こちらも合わせて変える
       NUXT_PUBLIC_API_BASE: ${NUXT_PUBLIC_API_BASE:-http://localhost:8080}

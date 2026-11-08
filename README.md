@@ -1,7 +1,7 @@
 # kakeibo-local
 
 家計簿アプリ **Kakeibo** をローカル環境で起動するための Docker Compose 一式。
-本体リポジトリ（[t-nozue-v2/kakeibo](https://github.com/t-nozue-v2/kakeibo)）のリリースで GitHub Container Registry (GHCR) に発行されたイメージを使うので、ソースのビルドは不要。
+本体リポジトリ（[root-admin-jp/kakeibo](https://github.com/root-admin-jp/kakeibo)）のリリースで GitHub Container Registry (GHCR) に発行されたイメージを使うので、ソースのビルドは不要。
 
 構成: Web (Nuxt) + API (Spring Boot) + DB (MySQL 8) の 3 コンテナ。テーブルの作成・更新は API 起動時に Flyway が自動で行う。
 
