@@ -7,20 +7,11 @@
 
 ## 前提
 - Docker（Docker Desktop / Docker Engine + Compose v2）
-- GHCR へのログイン（イメージが非公開の場合）
+- イメージは GHCR で公開されているため、取得にログインは不要
 
 ## 手順
 
-### 1. GHCR にログインする
-イメージが公開されている場合は、この手順は不要。
-イメージが非公開の場合は、read:packages 権限のある Personal Access Token (classic) を使う。
-
-```
-docker login ghcr.io -u root-admin-jp
-# パスワード欄に PAT を入力
-```
-
-### 2. 環境変数を用意する
+### 1. 環境変数を用意する
 ```
 cp .env.example .env
 ```
@@ -32,13 +23,13 @@ cp .env.example .env
 
 使うバージョンは `KAKEIBO_VERSION` で指定する（例: `v0.1.0`、未指定は `latest`）。
 
-### 3. 起動する
+### 2. 起動する
 ```
 docker compose pull
 docker compose up -d
 ```
 
-### 4. ブラウザで開く
+### 3. ブラウザで開く
 http://localhost:3000
 
 初回は「新規登録」からユーザーを作って使う。
