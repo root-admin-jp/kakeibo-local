@@ -7,12 +7,13 @@
 
 ## 前提
 - Docker（Docker Desktop / Docker Engine + Compose v2）
-- GHCR へのログイン（イメージが Private のため）
+- GHCR へのログイン（イメージが非公開の場合）
 
 ## 手順
 
 ### 1. GHCR にログインする
-read:packages 権限のある Personal Access Token (classic) を使う。
+イメージが公開されている場合は、この手順は不要。
+イメージが非公開の場合は、read:packages 権限のある Personal Access Token (classic) を使う。
 
 ```
 docker login ghcr.io -u t-nozue-v2
