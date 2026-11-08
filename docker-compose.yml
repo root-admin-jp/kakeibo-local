@@ -1,6 +1,6 @@
 # Kakeibo をローカルで起動するための Docker Compose
 # イメージは GitHub Container Registry の発行済みイメージを使う（ソースのビルドは不要）。
-# 事前に GHCR へのログインが必要（イメージが Private のため）。手順は README を参照。
+# イメージが非公開の場合は、事前に GHCR へのログインが必要。手順は README を参照。
 services:
   db:
     image: mysql:8.0
