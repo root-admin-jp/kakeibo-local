@@ -27,6 +27,19 @@ services:
       DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD を .env に設定してください}
       # JWT の署名キー。空だと起動のたびに変わりログインが切れるので、.env に固定値を入れる
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET を .env に設定してください}
+      # メール OTP の送信設定 (ADR-0014)。既定は log（コードを API のログへ出力）
+      MAIL_MODE: ${MAIL_MODE:-log}
+      MAIL_FROM: ${MAIL_FROM:-noreply@example.com}
+      MAIL_HOST: ${MAIL_HOST:-localhost}
+      MAIL_PORT: ${MAIL_PORT:-25}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_SMTP_AUTH: ${MAIL_SMTP_AUTH:-false}
+      MAIL_SMTP_STARTTLS: ${MAIL_SMTP_STARTTLS:-false}
+      # パスキー (WebAuthn) の RP 設定。localhost 以外で使う場合は HTTPS + ドメインに合わせる
+      WEBAUTHN_RP_ID: ${WEBAUTHN_RP_ID:-localhost}
+      WEBAUTHN_RP_NAME: ${WEBAUTHN_RP_NAME:-Kakeibo}
+      WEBAUTHN_ORIGINS: ${WEBAUTHN_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
     ports:
       - "${API_PORT:-8080}:8080"
     depends_on:
