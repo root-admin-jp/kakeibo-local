@@ -40,6 +40,8 @@ services:
       WEBAUTHN_RP_ID: ${WEBAUTHN_RP_ID:-localhost}
       WEBAUTHN_RP_NAME: ${WEBAUTHN_RP_NAME:-Kakeibo}
       WEBAUTHN_ORIGINS: ${WEBAUTHN_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      # CORS で許可するオリジン（パターン、カンマ区切り、v0.6.1 以降）。localhost 以外のホストで開く場合は .env で追加する
+      CORS_ALLOWED_ORIGIN_PATTERNS: ${CORS_ALLOWED_ORIGIN_PATTERNS:-http://localhost:*,http://127.0.0.1:*}
     ports:
       - "${API_PORT:-8080}:8080"
     depends_on:

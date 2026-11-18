@@ -47,10 +47,12 @@ http://localhost:3000
 - PC の Tailscale 名（MagicDNS 名、例: `mypc.tail1234.ts.net`）を確認しておく。`tailscale status` か Tailscale の管理コンソールで見られる（Tailscale IP `100.x.x.x` でも代用できる）
 
 ### A. HTTP で使う（手軽な方法）
-1. `.env` で、ブラウザから見た API の URL を PC の Tailscale 名に変える
+1. `.env` で、ブラウザから見た API の URL と、API が許可するオリジン（CORS）を PC の Tailscale 名に変える
    ```
    NUXT_PUBLIC_API_BASE=http://<PCのTailscale名>:8080
+   CORS_ALLOWED_ORIGIN_PATTERNS=http://localhost:*,http://127.0.0.1:*,http://<PCのTailscale名>:*
    ```
+   （`CORS_ALLOWED_ORIGIN_PATTERNS` は v0.6.1 以降で有効。それ以前のバージョンでは localhost 以外のオリジンから API に接続できない）
 2. `docker compose up -d` で再起動する
 3. 外出先デバイスのブラウザで `http://<PCのTailscale名>:3000` を開く
 4. ログインはメール OTP を使う（この方法ではパスキーは使えない。理由は次項）
@@ -65,9 +67,10 @@ tailscale serve --bg --https=8080 8080
 ```
 これで Web は `https://<PCのTailscale名>`、API は `https://<PCのTailscale名>:8080` になる。
 
-`.env` の次の 3 つを変えて、`docker compose up -d` で再起動する。
+`.env` の次の値を変えて、`docker compose up -d` で再起動する。
 ```
 NUXT_PUBLIC_API_BASE=https://<PCのTailscale名>:8080
+CORS_ALLOWED_ORIGIN_PATTERNS=http://localhost:*,http://127.0.0.1:*,https://<PCのTailscale名>
 WEBAUTHN_RP_ID=<PCのTailscale名>
 WEBAUTHN_ORIGINS=https://<PCのTailscale名>
 ```
